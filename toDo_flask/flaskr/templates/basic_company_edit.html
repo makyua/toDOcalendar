@@ -1,0 +1,45 @@
+{% from "_formhelpers.html" import render_field %}
+{% extends "base_after.html" %}
+{% block title %}
+企業情報編集 - {{ super() }}
+{% endblock %}
+
+{% block content_after %}
+<div class="col border rounded">
+    <div class="row">
+        <h1 class="mx-auto mt-3">会社の情報編集</h1>
+    </div>
+    {% for message in get_flashed_messages() %}
+        {{ message }}
+    {% endfor %}
+    <div class="row pl-3">
+        <form method="POST">
+            {{ form.csrf_token }}
+            {{ form.from_user_id(value=from_user_id) }}
+            {{ render_field(form.comname, value=company.comname) }}
+            {{ render_field(form.occupation, value=company.occupation) }}
+            {{ render_field(form.length, value=company.length.strftime('%Y-%m-%d')) }}
+            {{ render_field(form.scale, value=company.scale) }}
+            {{ render_field(form.comstock) }}
+            {{ render_field(form.supplier) }}
+            {{ render_field(form.client) }}
+            {{ form.submit() }}
+        </form>
+    </div>
+
+    <a class="float-right" href="{{url_for('app.basic_company_step_reg', id=company.id)}}">会社選考状況の登録</a>
+    <br>
+    <a class="float-right" href="{{url_for('app.basic_company_del', id=company.id)}}">会社情報の削除</a>
+</div>
+{% endblock %}
+
+{% block b_js %}
+<script type="text/javascript">
+    let comstock_selector = "option[value="+{{company.comstock|tojson}}+"]";
+    let comstock = document.getElementById("comstock").querySelector(comstock_selector).setAttribute("selected", "selected");
+    let supplier_selector = "option[value="+{{company.supplier|tojson}}+"]";
+    let supplier = document.getElementById("supplier").querySelector(supplier_selector).setAttribute("selected", "selected");
+    let client_selector = "option[value="+{{company.client|tojson}}+"]";
+    let client = document.getElementById("client").querySelector(client_selector).setAttribute("selected", "selected");
+</script>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% from "_formhelpers.html" import render_field %}
+{% extends "base_after.html" %}
+{% block title %}
+企業まとめ閲覧 - {{ super() }}
+{% endblock %}
+
+{% block content_after %}
+<div class="col border rounded">
+    <div class="row">
+        <h1 class="mx-auto mt-3">会社の詳細ページ</h1>
+    </div>
+    {% for message in get_flashed_messages() %}
+        {{ message }}
+    {% endfor %}
+    <div class="row mt-3">
+        <table class="table table-bordered">
+            <thead>
+                <td>会社の名前</td>
+                <td>職種</td>
+                <td>設立</td>
+                <td>規模感</td>
+                <td>株式公開</td>
+                <td>主要取引先</td>
+                <td>顧客</td>
+                <td>志望度</td>
+                <td>求める人物像</td>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="{{ url_for('app.basic_company_edit', id=company.id) }}">{{ company.comname }}</a></td>
+                    <td>{{ company.occupation }}</td>
+                    <td>{{ company.length.strftime('%Y年') }}</td>
+                    <td>{{ company.scale }}</td>
+                    <td>{{ company.comstock }}</td>
+                    <td>{{ company.supplier }}</td>
+                    <td>{{ company.client }}</td>
+                    <td>{{ company_step.aspiration }}</td>
+                    <td>{{ company_step.status }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class="row h3">
+        <div class="mx-auto">
+            <a href="{{ url_for('app.basic_company_step_edit', name=company.comname) }}">{{ company_step.step }}</a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <h4>魅力点</h4>
+            {% if company_step.good_comment %}
+                <p>{{ company_step.good_comment }}</p>
+            {% else %}
+                <p>未登録</p>
+            {% endif %}
+        </div>
+        <div class="col">
+            <h4>懸念点</h4>
+            {% if company_step.bad_comment %}
+                <p>{{ company_step.bad_comment }}</p>
+            {% else %}
+                <p>未登録</p>
+            {% endif %}
+        </div>
+    </div>
+    <hr>
+    <a class="float-right" href="{{url_for('app.basic_company_step_reg', id=company.id)}}">会社選考状況の登録</a>
+</div>
+{% endblock %}

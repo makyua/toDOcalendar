@@ -1,0 +1,44 @@
+{% from "_formhelpers.html" import render_field %}
+{% extends "base_after.html" %}
+{% block title %}
+企業情報編集 - {{ super() }}
+{% endblock %}
+
+{% block content_after %}
+<div class="col border rounded">
+    <div class="row">
+        <h1 class="mx-auto mt-3">会社の情報編集</h1>
+    </div>
+    {% for message in get_flashed_messages() %}
+        {{ message }}
+    {% endfor %}
+    <div class="row pl-3">
+        <form method="POST">
+            {{ form.csrf_token }}
+            {{ form.from_user_id(value=from_user_id) }}
+            {{ render_field(form.comname, value=company.comname) }}
+            {{ render_field(form.wishpoint, value=company.wishpoint) }}
+            {{ render_field(form.step) }}
+            {{ render_field(form.scale, value=company.scale) }}
+            {{ render_field(form.startmoney, value=company.startmoney) }}
+            {{ render_field(form.numemploy, value=company.numemploy) }}
+            {{ render_field(form.comment, cols="50", rows="5", id='comment') }}
+            {{ form.submit() }}
+        </form>
+    </div>
+
+    <a class="float-right" href="{{url_for('app.cp_del', id=company.id)}}">会社情報の削除</a>
+</div>
+{% endblock %}
+
+{% block b_js %}
+<script type="text/javascript">
+    let textarea = document.getElementById('comment')
+    //エラーは無視して大丈夫
+    textarea.value = {{company.comment|tojson}}
+    // セレクターの作成
+    let step_selector = "option[value="+{{company.step|tojson}}+"]";
+    // セレクトのチェックをつける
+    let step = document.getElementById("step").querySelector(step_selector).setAttribute("selected", "selected");
+</script>
+{% endblock %}

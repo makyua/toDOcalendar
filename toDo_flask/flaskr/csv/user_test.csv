@@ -1,0 +1,2 @@
+id,username,email,password,is_active,create_at,update_at
+5,testt,testt@mail.com,$2b$12$Jycwbpv20GKa1rzbZ4gqce7sDdzmDlGCcK4NRnsc/BbtqYDsxu2HC,TRUE,46:09.6,46:09.6

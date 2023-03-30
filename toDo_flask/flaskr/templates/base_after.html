@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="col">
+        {% include "_subHeader.html" %}
+        <div class="row">
+            {% block content_after %}
+            {% endblock %}
+        </div>
+    </div>    
+{% endblock %}

@@ -1,0 +1,44 @@
+{% from "_formhelpers.html" import render_field %}
+{% extends "base_after.html" %}
+{% block title %}
+企業まとめ閲覧 - {{ super() }}
+{% endblock %}
+
+{% block content_after %}
+<div class="col border rounded">
+    <div class="row">
+        <h1 class="mx-auto mt-3">会社の企業研究閲覧ページ</h1>
+    </div>
+    {% for message in get_flashed_messages() %}
+        {{ message }}
+    {% endfor %}
+    <div class="row mt-3">
+        <table class="table table-bordered">
+            <thead>
+                <td>会社の名前</td>
+                <td>職種</td>
+                <td>設立</td>
+                <td>規模感</td>
+                <td>株式公開</td>
+                <td>主要取引先</td>
+                <td>顧客</td>
+                <td></td>
+            </thead>
+            <tbody>
+                {% for company in basic_companies %}
+                <tr>
+                    <td><a href="{{ url_for('app.basic_company_edit', id=company.id) }}">{{ company.comname }}</a></td>
+                    <td>{{ company.occupation }}</td>
+                    <td>{{ company.length.strftime('%Y年') }}</td>
+                    <td>{{ company.scale }}</td>
+                    <td>{{ company.comstock }}</td>
+                    <td>{{ company.supplier }}</td>
+                    <td>{{ company.client }}</td>
+                    <td><a href="{{ url_for('app.basic_company_desc', id=company.id) }}"><img src="../static/bg/dec.png" alt="{{company.id}}" style="height: 30px;"></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% from "_formhelpers.html" import render_field %}
+{% extends "base_after.html" %}
+{% block title %}
+企業まとめ閲覧 - {{ super() }}
+{% endblock %}
+
+{% block content_after %}
+<div class="col border rounded">
+    <div class="row">
+        <h1 class="mx-auto mt-3">会社の企業研究閲覧ページ</h1>
+    </div>
+    {% for message in get_flashed_messages() %}
+        {{ message }}
+    {% endfor %}
+    <div class="row mt-3">
+        <table class="table table-bordered">
+            <thead>
+                <td>会社の名前</td>
+                <td>企業年齢</td>
+                <td>資本金</td>
+                <td>従業員数</td>
+                <td>離職率</td>
+                <td>初任給</td>
+                <td>平均年収</td>
+                <td></td>
+            </thead>
+            <tbody>
+                {% for company in basic_companies %}
+                {% set com_loop = loop %}
+                <tr>
+                    <td><a href="{{ url_for('app.basic_company_number_edit', comname=company.comname) }}">{{ company.comname }}</a></td>
+                    {% for age in ages %}
+                        {% if loop.index == com_loop.index %}
+                            <td>{{ age }}年</td>
+                        {% endif %}
+                    {% endfor %}
+                    <td>{{ company.capital }}</td>
+                    <td>{{ company.employee }}</td>
+                    <td>{{ company.turnover }}</td>
+                    <td>{{ company.start_salary }}</td>
+                    <td>{{ company.average_salary }}</td>
+                    <td><a href="{{ url_for('app.basic_company_desc', id=company.id) }}"><img src="../static/bg/dec.png" alt="{{company.id}}" style="height: 30px;"></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
