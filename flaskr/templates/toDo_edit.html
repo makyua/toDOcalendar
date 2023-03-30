@@ -1,0 +1,43 @@
+{% from "_formhelpers.html" import render_field %}
+{% extends "base_after.html" %}
+{% block title %}
+タスク編集 - {{ super() }}
+{% endblock %}
+
+{% block content_after %}
+<div class="col border rounded">
+    <div class="row">
+        <h1 class="mx-auto mt-3">タスクの情報編集</h1>
+    </div>
+    {% for message in get_flashed_messages() %}
+        {{ message }}
+    {% endfor %}
+    <div class="row pl-3">
+        <form method="POST">
+            {{ form.csrf_token }}
+            {{ form.from_user_id(value=from_user_id) }}
+            {{ render_field(form.taskname, value=task.taskname) }}
+            {{ render_field(form.workday, id='workday') }}
+            {{ render_field(form.overday, id='overday') }}
+            {{ render_field(form.memo, cols="50", rows="5", id='memo') }}
+            {{ form.submit() }}
+        </form>
+    </div>
+
+    <a class="float-right" href="{{url_for('app.toDo_del', id=task.id)}}">タスクの削除</a>
+</div>
+{% endblock %}
+
+{% block b_js %}
+<script type="text/javascript">
+    let textarea = document.getElementById('memo')
+    //エラーは無視して大丈夫
+    textarea.value = {{task.memo|tojson}}
+
+    // 日付の形式は、『YYYY-MM-DD』である必要がある
+    let workday = document.getElementById('workday')
+    workday.value = {{task.workday.strftime('%Y-%m-%d')|tojson}}
+    let overday = document.getElementById('overday')
+    overday.value = {{task.overday.strftime('%Y-%m-%d')|tojson}}
+</script>
+{% endblock %}

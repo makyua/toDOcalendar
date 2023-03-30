@@ -1,0 +1,26 @@
+{% from "_formhelpers.html" import render_field %}
+{% extends "base_after.html" %}
+{% block title %}
+企業情報登録 - {{ super() }}
+{% endblock %}
+{% block content_after %}
+<div class="col border rounded">
+    <div class="row">
+        <h1 class="mx-auto mt-3">タスクの登録ページ</h1>
+    </div>
+    {% for message in get_flashed_messages() %}
+        {{ message }}
+    {% endfor %}
+    <div class="row pl-3">
+        <form method="POST">
+            {{ form.csrf_token }}
+            {{ form.from_user_id(value=from_user_id) }}
+            {{ render_field(form.taskname) }}
+            {{ render_field(form.workday) }}
+            {{ render_field(form.overday) }}
+            {{ render_field(form.memo, cols="50", rows="5") }}
+            {{ form.submit() }}
+        </form>
+    </div>
+</div>
+{% endblock %}
